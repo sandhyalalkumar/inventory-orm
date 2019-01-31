@@ -3,12 +3,14 @@ from flask_migrate import Migrate
 from config import app_config
 from src.models import db
 from src.controllers.product_controller import product_api
+from src.controllers.product_variant_conroller import variant_api
 
 def create_app(config_name):
 
     app = Flask(__name__)
     app.config.from_object(app_config[config_name])
     app.register_blueprint(product_api, url_prefix="/api")
+    app.register_blueprint(variant_api, url_prefix="/api")
     db.init_app(app)
 
     @app.route('/')

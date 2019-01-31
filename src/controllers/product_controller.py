@@ -30,7 +30,7 @@ def get_product(id):
     return product_schema.jsonify(product)
 
 @product_api.route("/product/<id>", methods=["PUT"])
-def product_update(id):
+def update_product(id):
     product = Product.query.get(id)
     for key, value in request.json.items():
         product.__setattr__(key, value)
@@ -38,7 +38,7 @@ def product_update(id):
     return product_schema.jsonify(product)
 
 @product_api.route("/product/<id>", methods=["DELETE"])
-def product_delete(id):
+def delete_product(id):
     product = Product.query.get(id)
     db.session.delete(product)
     db.session.commit()
