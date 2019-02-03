@@ -1,45 +1,45 @@
 from flask import request, jsonify
 from src.models import db
 from flask import Blueprint
-from src.models.variants_model import ProductVariantSchema
-from src.models.variants_model import ProductVariant
+from src.models.variants_model import VariantsSchema
+from src.models.variants_model import Variants
 
 variants_api = Blueprint("variants_api", __name__)
 
-product_schema = ProductVariantSchema()
-products_schema = ProductVariantSchema(many=True)
+variant_schema = VariantsSchema()
+variants_schema = VariantsSchema(many=True)
 
-@variants_api.route("/variant", methods=['POST'])
+@variants_api.route("/variants", methods=['POST'])
 def add_variant():
 
-    product_variant = ProductVariant(request.json)
-    db.session.add(product_variant)
+    variants = Variants(request.json)
+    db.session.add(variants)
     db.session.commit()
 
     return jsonify(request.json)
 
 @variants_api.route("/variants", methods=['GET'])
 def get_variants():
-    product_variants = ProductVariant.query.all()
-    result = products_schema.dump(product_variants)
+    variants = Variants.query.all()
+    result = variants_schema.dump(variants)
     return jsonify(result.data)
 
-@variants_api.route("/variant/<id>", methods=['GET'])
+@variants_api.route("/variants/<id>", methods=['GET'])
 def get_variant(id):
-    product_variant = ProductVariant.query.get(id)
-    return product_schema.jsonify(product_variant)
+    variants = Variants.query.get(id)
+    return variant_schema.jsonify(variants)
 
-@variants_api.route("/variant/<id>", methods=["PUT"])
+@variants_api.route("/variants/<id>", methods=["PUT"])
 def update_variant(id):
-    product_variant = ProductVariant.query.get(id)
+    variants = Variants.query.get(id)
     for key, value in request.json.items():
-        product_variant.__setattr__(key, value)
+        variants.__setattr__(key, value)
     db.session.commit()
-    return product_schema.jsonify(product_variant)
+    return variant_schema.jsonify(variants)
 
-@variants_api.route("/variant/<id>", methods=["DELETE"])
+@variants_api.route("/variants/<id>", methods=["DELETE"])
 def delete_variant(id):
-    product = ProductVariant.query.get(id)
-    db.session.delete(product)
+    variants = Variants.query.get(id)
+    db.session.delete(variants)
     db.session.commit()
-    return product_schema.jsonify(product)
+    return variant_schema.jsonify(variants)

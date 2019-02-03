@@ -1,11 +1,11 @@
 from src.models import db
 from src.models import ma
-class ProductVariant(db.Model):
+class Variants(db.Model):
     """
     Create a product variant table
     """
 
-    __tablename__ = 'product_varient'
+    __tablename__ = 'variants'
 
     id = db.Column(db.String(10), primary_key=True)
     product_id = db.Column(db.String(60))
@@ -23,6 +23,6 @@ class ProductVariant(db.Model):
     def __repr__(self):
         return 'Product Variant: {}'.format(self.id)
 
-class ProductVariantSchema(ma.Schema):
+class VariantsSchema(ma.Schema):
     class Meta:
         fields = ('id', 'product_id', 'selling_price', 'cost_price', 'quantity')
