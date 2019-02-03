@@ -10,6 +10,10 @@ class VariantProperty(db.Model):
     variant = db.Column(db.String(50))
     value = db.Column(db.String(20))
 
+    def __init__(self, data):
+        self.id = data.get('id')
+        self.variant = data.get('variant')
+        self.value = data.get('value')
 
     def __repr__(self):
-        return 'Variant Properties: {}'.format(self.variant_id)
+        return 'Variant Properties: {}'.format(self.id)

@@ -1,15 +1,15 @@
 from flask import request, jsonify
 from src.models import db
 from flask import Blueprint
-from src.models.product_variant_model import ProductVariantSchema
-from src.models.product_variant_model import ProductVariant
+from src.models.variants_model import ProductVariantSchema
+from src.models.variants_model import ProductVariant
 
-variant_api = Blueprint("variant_api", __name__)
+variants_api = Blueprint("variants_api", __name__)
 
 product_schema = ProductVariantSchema()
 products_schema = ProductVariantSchema(many=True)
 
-@variant_api.route("/variant", methods=['POST'])
+@variants_api.route("/variant", methods=['POST'])
 def add_variant():
 
     product_variant = ProductVariant(request.json)
@@ -18,18 +18,18 @@ def add_variant():
 
     return jsonify(request.json)
 
-@variant_api.route("/variants", methods=['GET'])
+@variants_api.route("/variants", methods=['GET'])
 def get_variants():
     product_variants = ProductVariant.query.all()
     result = products_schema.dump(product_variants)
     return jsonify(result.data)
 
-@variant_api.route("/variant/<id>", methods=['GET'])
+@variants_api.route("/variant/<id>", methods=['GET'])
 def get_variant(id):
     product_variant = ProductVariant.query.get(id)
     return product_schema.jsonify(product_variant)
 
-@variant_api.route("/variant/<id>", methods=["PUT"])
+@variants_api.route("/variant/<id>", methods=["PUT"])
 def update_variant(id):
     product_variant = ProductVariant.query.get(id)
     for key, value in request.json.items():
@@ -37,7 +37,7 @@ def update_variant(id):
     db.session.commit()
     return product_schema.jsonify(product_variant)
 
-@variant_api.route("/variant/<id>", methods=["DELETE"])
+@variants_api.route("/variant/<id>", methods=["DELETE"])
 def delete_variant(id):
     product = ProductVariant.query.get(id)
     db.session.delete(product)
