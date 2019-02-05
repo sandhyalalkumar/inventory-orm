@@ -9,7 +9,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_DATABASE_URI = 'mysql://root:Modak@123@localhost:3306/inventory_orm'
-
+    SECRET_KEY = 'thesecretkey'
 
 class ProductionConfig(Config):
     """
